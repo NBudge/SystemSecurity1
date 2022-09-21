@@ -1,0 +1,1 @@
+curl -v -d "@newuser.json" -X POST -H "Content-Type:appplication/text" https://dev.stedi.me/user
