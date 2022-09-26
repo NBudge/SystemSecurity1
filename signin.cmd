@@ -1,1 +1,1 @@
-curl -v -d "@signin.json" -X POST -H "Content-Type:appplication/text" https://dev.stedi.me/user
+curl -v -d "@signin.json" -X POST -H "Content-Type:application/text" https://dev.stedi.me/login
