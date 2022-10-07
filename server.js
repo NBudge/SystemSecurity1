@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require("body-parser");
-const {v4 : uuidv4} = require("uuid");
+const {v4 : uuidv4, stringify} = require("uuid");
 const port = 3000;
 const app = express();
 const {createClient} = require('redis');
@@ -22,21 +22,28 @@ app.listen(port, async ()=>{
 app.post('/user', (req,res)=>{
     const newUserRequestObject = req.body;
     console.log('New User: ',JSON.stringify(newUserRequestObject));
-    //redisClient.hSet('users',req.body.email,JSON.stringify(newUserRequestObject));
+    redisClient.hSet('users',req.body.email,JSON.stringify(newUserRequestObject));
     res.send('New user '+newUserRequestObject.email+' added');
 });
 
-app.post("/login", (req,res)=>{
+app.post("/login", async (req,res)=>{
     const loginEmail = req.body.userName;
     console.log(JSON.stringify(req.body));
     console.log("loginEmail", loginEmail);
     const loginPassword = req.body.password;
     console.log("loginPassword", loginPassword);
-    if (loginEmail == "fakBotEmail2@fakemail.com" && loginPassword == "P@ssw0rd"){
-        const token = uuidv4();
-        res.send(token);
-    } else{
-        res.status(401);//unauthorized
-        res.send("Invalid user or password");
+
+    const userString=await redisClient.hGet('users',loginEmail);
+    const userObject=JSON.parse(userString);
+    if(userString=='' || userString==null){
+        res.status(404);
+        res.send('User not found.');
     }
+    else if (loginEmail == userObject.userName && loginPassword == userObject.password){
+    const token = uuidv4();
+    res.send(token);
+    } else{
+    res.status(401);//Unauthorized
+    res.send("Invalid user or password");
+}
 })
