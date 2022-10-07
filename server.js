@@ -21,6 +21,11 @@ app.listen(port, async ()=>{
 
 app.post('/user', (req,res)=>{
     const newUserRequestObject = req.body;
+    const loginPassword = req.body.password;
+    const hash = md5(loginPassword);
+    console.log(hash);
+    newUserRequestObject.password=hash;
+    newUserRequestObject.verifyPassword=hash;
     console.log('New User: ',JSON.stringify(newUserRequestObject));
     redisClient.hSet('users',req.body.email,JSON.stringify(newUserRequestObject));
     res.send('New user '+newUserRequestObject.email+' added');
@@ -30,7 +35,7 @@ app.post("/login", async (req,res)=>{
     const loginEmail = req.body.userName;
     console.log(JSON.stringify(req.body));
     console.log("loginEmail", loginEmail);
-    const loginPassword = req.body.password;
+    const loginPassword = md5(req.body.password);
     console.log("loginPassword", loginPassword);
 
     const userString=await redisClient.hGet('users',loginEmail);
