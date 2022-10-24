@@ -14,10 +14,14 @@ const redisClient = createClient(
 
 app.use(bodyParser.json());
 
-app.listen(port, async ()=>{
-    await redisClient.connect();
-    console.log('listening on port '+port);
-});
+https.createServer({
+    key: fs.readFileSync('server.key'),
+    cert: fs.readFileSync('server.cert'),
+    passphrase: 'P@ssw0rd'
+}, app).listen(port, async ()=>{
+    await redisClient.connect();//creating a TCP socket with Redis
+    console.log("Listening on port: "+port);
+})
 
 app.post('/user', (req,res)=>{
     const newUserRequestObject = req.body;
