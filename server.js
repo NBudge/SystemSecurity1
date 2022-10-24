@@ -8,7 +8,7 @@ const md5 = require('md5');
 
 const redisClient = createClient(
 {
-    Url:'redis://default@localhost:6379'
+    Url:'10.128.0.3'
 }
 );
 
