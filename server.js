@@ -6,6 +6,7 @@ const app = express();
 const {createClient} = require('redis');
 const md5 = require('md5');
 const https = require('https');
+const fs = require('fs');
 
 const redisClient = createClient(
 {
