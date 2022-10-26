@@ -10,7 +10,7 @@ const fs = require('fs');
 
 const redisClient = createClient(
 {
-    Url:'redis://default@10.128.0.3:6379'
+    Url:'redis://default@34.173.72.222:6379'
 }
 );
 
