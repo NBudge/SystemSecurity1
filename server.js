@@ -62,4 +62,8 @@ app.post("/login", async (req,res)=>{
     res.status(401);//Unauthorized
     res.send("Invalid user or password");
 }
-})
+});
+
+app.get("/", (req,res)=>{
+    res.send("Hello World!")
+});
