@@ -19,7 +19,7 @@ app.use(bodyParser.json());
 https.createServer({
     key: fs.readFileSync('server.key'),
     cert: fs.readFileSync('server.cert'),
-    passphrase: 'P@ssw0rd'
+    ca: fs.readFileSync('chain.pem'),
 }, app).listen(port, async ()=>{
     console.log("Listening...");
     try {
