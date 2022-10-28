@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require("body-parser");
 const {v4 : uuidv4, stringify} = require("uuid");
-const port = 443;
+const port = 4043;
 const app = express();
 const {createClient} = require('redis');
 const md5 = require('md5');
