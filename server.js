@@ -21,8 +21,12 @@ https.createServer({
     cert: fs.readFileSync('server.cert'),
     passphrase: 'P@ssw0rd'
 }, app).listen(port, async ()=>{
+    try {
     await redisClient.connect();//creating a TCP socket with Redis
-    console.log("Listening on port: "+port);
+    console.log("Listening on port: "+port)}
+    catch(error) {
+        console.log("error")
+    };
 })
 
 app.post('/user', (req,res)=>{
